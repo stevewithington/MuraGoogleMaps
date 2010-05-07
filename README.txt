@@ -2,7 +2,7 @@ COPYRIGHT
 (C) 2010, Stephen J. Withington, Jr. | http://www.stephenwithington.com
 
 PROJECT
-MuraGoogleMaps
+MuraGoogleMaps TM
 
 VERSION
 0.1-Alpha
@@ -15,7 +15,6 @@ Can accept either a properly formatted CSV file or XML file.
 Future plans to accept a query object. However, currently does not allow
 end-user control via the admin UI to add/edit/delete locations.
 
-
 FILE FORMAT REQUIREMENTS
 
 .CSV file
@@ -26,8 +25,6 @@ FILE FORMAT REQUIREMENTS
 .XML files
 	- All nodes must be present even if the value is empty.
 	- View the included 'sample.xml' file for reference.
-	
-
 
 FIELD DESCRIPTIONS
 Fields marked 'Optional' below may be left blank.
