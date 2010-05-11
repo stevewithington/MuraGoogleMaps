@@ -39,11 +39,11 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="dspMuraGoogleMap" access="public" output="true" returntype="any">
+	<cffunction name="dspMuraGoogleMap" access="public" output="false" returntype="any">
 		<cfargument name="CSVFile" required="false" default="" type="string" />
 		<cfargument name="XMLFile" required="false" default="" type="string" />
 		<cfscript>
-			// test CSV file: #expandPath('/plugins/#variables.pluginConfig.getDirectory()#/lib/com/stephenwithington/muragooglemaps/samples/sample.csv')#
+			// test CSV file: #ExpandPath('/plugins/#variables.pluginConfig.getDirectory()#/lib/com/stephenwithington/muragooglemaps/samples/sample.csv')#
 			// test XML file: #ExpandPath('/plugins/#variables.pluginConfig.getDirectory()#/lib/com/stephenwithington/muragooglemaps/samples/sample.xml')#
 		
 			var local = structNew();
