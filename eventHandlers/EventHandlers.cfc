@@ -31,13 +31,23 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="onPageMuraGoogleMapsBodyRender" access="public" output="false" returntype="any">
+	<cffunction name="onPageMuraGoogleMapsBodyRender" access="public" output="true" returntype="any">
 		<cfargument name="$" />
 		<cfscript>
 			var local = StructNew();
 			local.str = '';
 			local.body = $.setDynamicContent($.content('body'));
 			local.map = '';
+			local.mapFile = '';
+
+			if ( len(trim($.content('mapFile'))) ) {
+				local.fileObj = createObject('java','java.io.File');
+				local.delim = local.fileObj.separator;
+				local.fileDir = $.siteConfig('configBean').getFileDir();
+				local.mapFileID = $.content('mapFile');
+				local.rsMapInfo = $.getBean('fileManager').readMeta(local.mapFileID);
+				local.mapFile = local.fileDir & local.delim & $.siteConfig('siteid') & local.delim & 'cache' & local.delim & 'file' & local.delim & local.rsMapInfo.fileID & '.' & local.rsMapInfo.fileExt;
+			};
 
 			local.mapOptions = StructNew();
 			local.mapOptions.mapType = $.content('mapType');
@@ -53,9 +63,9 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 					file = $.content('XmlUrl')
 					, options = local.mapOptions
 				);
-			} else if ( len(trim($.content('mapFile'))) ) {
+			} else if ( len(trim(local.mapFile)) ) {
 				local.map = dspMuraGoogleMap(
-					file = $.content('mapFile')
+					file = local.mapFile
 					, options = local.mapOptions
 				);
 			};
@@ -63,6 +73,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 			local.str = local.body & local.map;
 			return local.str;
 		</cfscript>
+		<!---<cfdump var="#local.mapFile#" />--->
 	</cffunction>
 
 	<cffunction name="dspMuraGoogleMap" access="public" output="false" returntype="any">
@@ -81,8 +92,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 			if ( not StructKeyExists(arguments, 'options') or not IsStruct(arguments.options) ) {
 				arguments.options = StructNew();
 			};
-			
-			// IF CSV
+
 			if ( StructKeyExists(arguments, 'file') and len(trim(arguments.file)) ) {
 
 				if ( right(arguments.file, 3) eq 'csv' ) {
