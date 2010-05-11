@@ -54,6 +54,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,parentType=local.parentType
 		,orderNo=2
 	);
+
 	// mapType
 	upsertAttributeSet(
 		siteID=local.rsSites.siteid
@@ -112,7 +113,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 	upsertAttributeSet(
 		siteID=local.rsSites.siteid
 		,name='start'
-		,label='Default From/Start Location'
+		,label='Default Start/From Location'
 		,hint='The default start/from address location if showing directions.'
 		,type='TextBox'
 		,defaultValue='Lebanon, KS'
@@ -149,7 +150,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		siteID=local.rsSites.siteid
 		,name='mapHeight'
 		,label='Map Height'
-		,hint='Map width in pixels.'
+		,hint='Map height in pixels.'
 		,type='TextBox'
 		,defaultValue='400'
 		,required=false
