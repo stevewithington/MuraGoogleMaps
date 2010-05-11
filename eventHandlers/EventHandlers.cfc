@@ -31,14 +31,6 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="onRenderEnd" output="false" returntype="void">
-		<cfargument name="$" required="true" />
-		<cfscript>
-			var local = structNew();
-			setMuraScope(arguments.$);
-		</cfscript>
-	</cffunction>
-
 	<cffunction name="dspMuraGoogleMap" access="public" output="false" returntype="any">
 		<cfargument name="CSVFile" required="false" default="" type="string" />
 		<cfargument name="XMLFile" required="false" default="" type="string" />
