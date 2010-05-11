@@ -31,59 +31,114 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="dspMuraGoogleMap" access="public" output="false" returntype="any">
-		<cfargument name="CSVFile" required="false" default="" type="string" />
-		<cfargument name="XMLFile" required="false" default="" type="string" />
+	<cffunction name="onPageMuraGoogleMapsBodyRender" access="public" output="false" returntype="any">
+		<cfargument name="$" />
 		<cfscript>
+			var local = StructNew();
+			local.str = '';
+			local.body = $.setDynamicContent($.content('body'));
+			local.map = '';
+
+			local.mapOptions = StructNew();
+			local.mapOptions.mapType = $.content('mapType');
+			local.mapOptions.displayDirections = $.content('displayDirections');
+			local.mapOptions.displayTravelMode = $.content('displayTravelMode');
+			local.mapOptions.start = $.content('start');
+			local.mapOptions.mapWidth = $.content('mapWidth');
+			local.mapOptions.mapHeight = $.content('mapHeight');
+
+			// if using XML URL
+			if ( len(trim($.content('XmlUrl'))) ) {
+				local.map = dspMuraGoogleMap(
+					file = $.content('XmlUrl')
+					, options = local.mapOptions
+				);
+			} else if ( len(trim($.content('mapFile'))) ) {
+				local.map = dspMuraGoogleMap(
+					file = $.content('mapFile')
+					, options = local.mapOptions
+				);
+			};
+
+			local.str = local.body & local.map;
+			return local.str;
+		</cfscript>
+	</cffunction>
+
+	<cffunction name="dspMuraGoogleMap" access="public" output="false" returntype="any">
+		<cfargument name="file" required="false" default="" type="string" />
+		<cfargument name="options" required="false" />
+		<cfscript>
+			//StructFind(arguments.options, 'displayDirections');
 			// test CSV file: #ExpandPath('/plugins/#variables.pluginConfig.getDirectory()#/lib/com/stephenwithington/muragooglemaps/samples/sample.csv')#
 			// test XML file: #ExpandPath('/plugins/#variables.pluginConfig.getDirectory()#/lib/com/stephenwithington/muragooglemaps/samples/sample.xml')#
+			// test XML file: http://dev.loc/?LinkServID=3837E9CE-B717-0357-2ADFB401019A83E9
 		
 			var local = structNew();
 			local.str = '';
 			local.mgm = 'plugins.#variables.pluginConfig.getDirectory()#.lib.com.stephenwithington.muragooglemaps.MuraGoogleMaps';
 			
-			// IF CSV
-			if ( StructKeyExists(arguments, 'CSVFile') and len(trim(arguments.CSVFile)) ) {
-				// settings.ini.cfm filestore=fileDir, if it's anything else (i.e., database or s3), this won't work
-				if ( getMuraScope().siteConfig('configBean').getFilestore() eq 'fileDir' ) {
-					local.objMap = createObject("component", local.mgm).init(
-						pluginConfig = variables.pluginConfig
-						, CSVFile = arguments.CSVFile
-					);
-					local.str = local.objMap.getMap();
-				} else {
-					local.str = '<p><em>Sorry, files must be stored locally in order for MuraGoogleMaps to function properly at this time.</em></p>';
-				};
+			if ( not StructKeyExists(arguments, 'options') or not IsStruct(arguments.options) ) {
+				arguments.options = StructNew();
 			};
 			
-			// IF XML
-			if ( StructKeyExists(arguments, 'XMLFile') and len(trim(arguments.XMLFile)) ) {
-				// settings.ini.cfm filestore=fileDir, if it's anything else (i.e., database or s3), this won't work
-				if ( left(arguments.XMLFile, 4) eq 'http' or getMuraScope().siteConfig('configBean').getFilestore() eq 'fileDir' ) {
-					local.objMap = createObject("component", local.mgm).init(
-						pluginConfig = variables.pluginConfig
-						, XMLFile = arguments.XMLFile
-					);
-					local.str = local.objMap.getMap();
+			// IF CSV
+			if ( StructKeyExists(arguments, 'file') and len(trim(arguments.file)) ) {
+
+				if ( right(arguments.file, 3) eq 'csv' ) {
+					// settings.ini.cfm filestore=fileDir, if it's anything else (i.e., database or s3), this won't work
+					if ( getMuraScope().siteConfig('configBean').getFilestore() eq 'fileDir' ) {
+						local.objMap = createObject("component", local.mgm).init(
+							pluginConfig = variables.pluginConfig
+							, CSVFile = arguments.file
+							, options = arguments.options
+						);
+						local.str = local.objMap.getMap();
+					} else {
+						local.str = '<p><em>Sorry, files must be stored locally in order for MuraGoogleMaps to function properly at this time.</em></p>';
+					};
+				} else if ( right(arguments.file, 3) eq 'xml' ) {
+					// settings.ini.cfm filestore=fileDir, if it's anything else (i.e., database or s3), this won't work
+					if ( getMuraScope().siteConfig('configBean').getFilestore() eq 'fileDir' ) {
+						local.objMap = createObject("component", local.mgm).init(
+							pluginConfig = variables.pluginConfig
+							, XMLFile = arguments.file
+							, options = arguments.options
+						);
+						local.str = local.objMap.getMap();
+					} else {
+						local.str = '<p><em>Sorry, XML files must either be stored locally or served via HTTP in order for MuraGoogleMaps to function properly at this time.</em></p>';
+					};
+						
+				} else if ( left(arguments.file, 4) eq 'http' ) {
+					// settings.ini.cfm filestore=fileDir, if it's anything else (i.e., database or s3), this won't work
+						local.objMap = createObject("component", local.mgm).init(
+							pluginConfig = variables.pluginConfig
+							, XMLFile = arguments.file
+							, options = arguments.options
+						);
+						local.str = local.objMap.getMap();
 				} else {
-					local.str = '<p><em>Sorry, XML files must either be stored locally or served via HTTP in order for MuraGoogleMaps to function properly at this time.</em></p>';
+					local.str = '<p><em>Sorry, we do not appear to have a properly formatted CSV or XML file to work with.</em></p>';
 				};
+			} else {
+				local.str = '<p>Did you send us a file?</p>';
 			};
 
 			return local.str;
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="setMuraScope" returntype="void" output="false">
+	<cffunction name="setMuraScope" access="private" returntype="void" output="false">
 		<cfargument name="$" required="true" />
 		<cfset variables.instance.$ = arguments.$ />
 	</cffunction>
 
-	<cffunction name="getMuraScope" returntype="any" output="false">
+	<cffunction name="getMuraScope" access="private" returntype="any" output="false">
 		<cfreturn variables.instance.$ />
 	</cffunction>
 
-	<cffunction name="getAllValues" returntype="any" output="false">
+	<cffunction name="getAllValues" access="public" returntype="any" output="false">
 		<cfreturn variables.instance />
 	</cffunction>
 

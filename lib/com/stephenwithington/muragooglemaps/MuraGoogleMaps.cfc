@@ -22,20 +22,34 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfargument name="pluginConfig" required="true" />
 		<cfargument name="CSVFile" required="false" />
 		<cfargument name="XMLFile" required="false" />
+		<cfargument name="options" required="false" default="" />
 		<cfscript>
 			if ( StructKeyExists(arguments, 'pluginConfig') ) {
 				setPluginConfig(arguments.pluginConfig);
 			};
-			
+
 			if ( StructKeyExists(arguments, 'CSVFile') ) {
 				setCSVFile(arguments.CSVFile);
 				setData(readCSVFile(getCSVFile()));
-				setMap(getData());
 			};
 			
 			if ( StructKeyExists(arguments, 'XMLFile') ) {
 				setXMLFile(arguments.XMLFile);
 				setData(readXMLFile(getXMLFile()));
+			};
+
+			// check for incoming options
+			if ( IsStruct(arguments.options) ) {
+				setmap(
+					mapData=getData()
+					, displayDirections = StructFind(arguments.options, 'displayDirections')
+					, displayTravelMode = StructFind(arguments.options, 'displayTravelMode')
+					, mapHeight = val(StructFind(arguments.options, 'mapHeight'))
+					, mapType = StructFind(arguments.options, 'mapType')
+					, mapWidth = val(StructFind(arguments.options, 'mapWidth'))
+					, start = StructFind(arguments.options, 'start')
+				);
+			} else {
 				setMap(getData());
 			};
 			
@@ -49,13 +63,13 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 
 	<cffunction name="setMap" access="private" returntype="any" output="true">
 		<cfargument name="mapData" type="array" required="true" />
-		<cfargument name="displayDirections" default="true" type="boolean" required="false" />
-		<cfargument name="displayTravelMode" default="true" type="boolean" required="false" />
-		<cfargument name="mapHeight" default="400" type="numeric" required="false" />
-		<cfargument name="mapInfoWindowMaxWidth" default="300" type="numeric" required="false" />
-		<cfargument name="mapType" default="TERRAIN" type="string" required="false" />
-		<cfargument name="mapWidth" default="600" type="numeric" required="false" />
-		<cfargument name="start" default="Lebanon, KS" type="string" required="false" />
+		<cfargument name="displayDirections" default="true" required="false" />
+		<cfargument name="displayTravelMode" default="true" required="false" />
+		<cfargument name="mapHeight" default="400" required="false" />
+		<cfargument name="mapInfoWindowMaxWidth" default="300" required="false" />
+		<cfargument name="mapType" default="TERRAIN" required="false" />
+		<cfargument name="mapWidth" default="600" required="false" />
+		<cfargument name="start" default="Lebanon, KS" required="false" />
 		
 		<cfscript>
 			var local = StructNew();
@@ -65,6 +79,14 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 			// default start 'From' for directions
 			if ( not structKeyExists(arguments, 'start') ) {
 				arguments.start = start;
+			};
+			
+			if ( not IsBoolean(arguments.displayDirections) ) {
+				arguments.displayDirections = true;
+			};
+			
+			if ( not IsBoolean(arguments.displayTravelMode) ) {
+				arguments.displayTravelMode = true;
 			};
 			
 			// validate mapType

@@ -19,12 +19,12 @@ Valid Types:
 <cfscript>
 // time to create the attribute sets
 if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExists(local.rsSites, 'siteid') and structKeyExists(local, 'parentType') ) {
-	// CSVFile
+	// mapFile
 	upsertAttributeSet(
 		siteID=local.rsSites.siteid
-		,name='CSVFile'
-		,label='CSV File'
-		,hint='The .CSV file.'
+		,name='mapFile'
+		,label='CSV or XML File'
+		,hint='The properly formatted .CSV or .XML file.'
 		,type='File'
 		,defaultValue=''
 		,required=false
@@ -37,10 +37,27 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,orderNo=1
 	);
 
+	// XmlUrl
+	upsertAttributeSet(
+		siteID=local.rsSites.siteid
+		,name='XmlUrl'
+		,label='The URL of a properly formatted XML file'
+		,hint='The URL of a properly formatted XML file (if not uploading a CSV or XML file)'
+		,type='TextBox'
+		,defaultValue=''
+		,required=false
+		,validate='None'
+		,regex=''
+		,message=''
+		,optionList=''
+		,optionLableList=''
+		,parentType=local.parentType
+		,orderNo=2
+	);
 	// mapType
 	upsertAttributeSet(
 		siteID=local.rsSites.siteid
-		,name='mayType'
+		,name='mapType'
 		,label='Default Map Type'
 		,hint='The default Map Type.'
 		,type='SelectBox'
@@ -52,7 +69,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,optionList='ROADMAP^SATELLITE^HYBRID^TERRAIN'
 		,optionLabelList='Roadmap^Satellite^Hybrid^Terrain'
 		,parentType=local.parentType
-		,orderNo=2
+		,orderNo=3
 	);
 
 	// displayDirections
@@ -70,7 +87,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,optionList='false^true'
 		,optionLabelList='No^Yes'
 		,parentType=local.parentType
-		,orderNo=3
+		,orderNo=4
 	);
 
 	// displayTravelMode
@@ -88,7 +105,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,optionList='false^true'
 		,optionLabelList='No^Yes'
 		,parentType=local.parentType
-		,orderNo=4
+		,orderNo=5
 	);
 
 	// start
@@ -106,7 +123,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,optionList=''
 		,optionLabelList=''
 		,parentType=local.parentType
-		,orderNo=5
+		,orderNo=6
 	);
 
 	// mapWidth
@@ -124,7 +141,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,optionList=''
 		,optionLabelList=''
 		,parentType=local.parentType
-		,orderNo=6
+		,orderNo=7
 	);
 
 	// mapHeight
@@ -142,7 +159,7 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,optionList=''
 		,optionLabelList=''
 		,parentType=local.parentType
-		,orderNo=7
+		,orderNo=8
 	);
 
 };
