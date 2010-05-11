@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+This file is part of MuraGoogleMaps TM
+(c) Stephen J. Withington, Jr. | www.stephenwithington.com
+
+CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THIS SOFTWARE, YOU ARE CONSENTING TO BE BOUND BY AND ARE BECOMING A PARTY TO THIS AGREEMENT. IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, THEN DO NOT USE THIS SOFTWARE, AND, IF APPLICABLE, RETURN THIS PRODUCT TO THE PLACE OF PURCHASE FOR A FULL REFUND.
+
+-->
+<locations>
+	<location>
+		<LocationName>Chicago White Sox</LocationName>
+		<Lat></Lat>
+		<Lng></Lng>
+		<Address>333 W 35th St, Chicago, IL 60609</Address>
+		<Phone>(312) 674-1000</Phone>
+		<InfoWindow></InfoWindow>
+		<ZIndex>1</ZIndex>
+		<Icon></Icon>
+	</location>
+	<location>
+		<LocationName>Cleveland Indians</LocationName>
+		<Lat></Lat>
+		<Lng></Lng>
+		<Address>2401 Ontario St, Cleveland, OH 44115</Address>
+		<Phone>(216) 241-8888</Phone>
+		<InfoWindow></InfoWindow>
+		<ZIndex>2</ZIndex>
+		<Icon></Icon>
+	</location>
+	<location>
+		<LocationName>Detroit Tigers</LocationName>
+		<Lat></Lat>
+		<Lng></Lng>
+		<Address>2100 Woodward Ave, Detroit, MI 48201</Address>
+		<Phone>(313) 962-4000</Phone>
+		<InfoWindow></InfoWindow>
+		<ZIndex>3</ZIndex>
+		<Icon></Icon>
+	</location>
+	<location>
+		<LocationName>Kansas City Royals</LocationName>
+		<Lat></Lat>
+		<Lng></Lng>
+		<Address>1 Royal Way, Kansas City, MO 64129</Address>
+		<Phone>(816) 921-8000</Phone>
+		<InfoWindow></InfoWindow>
+		<ZIndex>4</ZIndex>
+		<Icon></Icon>
+	</location>
+	<location>
+		<LocationName>Minnesota Twins</LocationName>
+		<Lat></Lat>
+		<Lng></Lng>
+		<Address>351-413 5th Ave N, Minneapolis, MN 55401</Address>
+		<Phone>(612) 659-3400</Phone>
+		<InfoWindow></InfoWindow>
+		<ZIndex>5</ZIndex>
+		<Icon></Icon>
+	</location>
+</locations>
