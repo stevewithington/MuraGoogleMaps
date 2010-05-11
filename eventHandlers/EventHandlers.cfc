@@ -10,14 +10,14 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 
 	<cfscript>
 		variables.instance = structNew();
-		variables.instance.event = structNew();
+		variables.instance.$ = structNew();
 	</cfscript>
 
 	<cffunction name="onApplicationLoad" output="false" returntype="void">
-		<cfargument name="event" required="true" />
+		<cfargument name="$" required="true" />
 		<cfscript>
 			var local = structNew();
-			setEvent(arguments.event);
+			setMuraScope(arguments.$);
 			variables.pluginConfig.addEventHandler(this);
 		</cfscript>
 	</cffunction>
@@ -26,36 +26,69 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfargument name="$" required="true" />
 		<cfscript>
 			var local = structNew();
-			setEvent(arguments.$.event());
+			setMuraScope(arguments.$);
 			$.muraGoogleMaps = this;
 		</cfscript>
 	</cffunction>
 
 	<cffunction name="onRenderEnd" output="false" returntype="void">
-		<cfargument name="event" required="true" />
+		<cfargument name="$" required="true" />
 		<cfscript>
 			var local = structNew();
-			setEvent(arguments.event);
+			setMuraScope(arguments.$);
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="dspMuraGoogleMap" access="public" output="false" returntype="any">
-		<cfargument name="showTitle" required="false" default="true" type="boolean" />
-		<cfargument name="debug" required="false" type="boolean" default="false" />
+	<cffunction name="dspMuraGoogleMap" access="public" output="true" returntype="any">
+		<cfargument name="CSVFile" required="false" default="" type="string" />
+		<cfargument name="XMLFile" required="false" default="" type="string" />
 		<cfscript>
+			// test CSV file: #expandPath('/plugins/#variables.pluginConfig.getDirectory()#/lib/com/stephenwithington/muragooglemaps/samples/sample.csv')#
+			// test XML file: #ExpandPath('/plugins/#variables.pluginConfig.getDirectory()#/lib/com/stephenwithington/muragooglemaps/samples/sample.xml')#
+		
 			var local = structNew();
-			local.str = 'Not built yet.';
+			local.str = '';
+			local.mgm = 'plugins.#variables.pluginConfig.getDirectory()#.lib.com.stephenwithington.muragooglemaps.MuraGoogleMaps';
+			
+			// IF CSV
+			if ( StructKeyExists(arguments, 'CSVFile') and len(trim(arguments.CSVFile)) ) {
+				// settings.ini.cfm filestore=fileDir, if it's anything else (i.e., database or s3), this won't work
+				if ( getMuraScope().siteConfig('configBean').getFilestore() eq 'fileDir' ) {
+					local.objMap = createObject("component", local.mgm).init(
+						pluginConfig = variables.pluginConfig
+						, CSVFile = arguments.CSVFile
+					);
+					local.str = local.objMap.getMap();
+				} else {
+					local.str = '<p><em>Sorry, files must be stored locally in order for MuraGoogleMaps to function properly at this time.</em></p>';
+				};
+			};
+			
+			// IF XML
+			if ( StructKeyExists(arguments, 'XMLFile') and len(trim(arguments.XMLFile)) ) {
+				// settings.ini.cfm filestore=fileDir, if it's anything else (i.e., database or s3), this won't work
+				if ( left(arguments.XMLFile, 4) eq 'http' or getMuraScope().siteConfig('configBean').getFilestore() eq 'fileDir' ) {
+					local.objMap = createObject("component", local.mgm).init(
+						pluginConfig = variables.pluginConfig
+						, XMLFile = arguments.XMLFile
+					);
+					local.str = local.objMap.getMap();
+				} else {
+					local.str = '<p><em>Sorry, XML files must either be stored locally or served via HTTP in order for MuraGoogleMaps to function properly at this time.</em></p>';
+				};
+			};
+
+			return local.str;
 		</cfscript>
-		<cfreturn local.str />
 	</cffunction>
 
-	<cffunction name="setEvent" returntype="void" output="false">
-		<cfargument name="event" required="true" />
-		<cfset variables.instance.event = arguments.event />
+	<cffunction name="setMuraScope" returntype="void" output="false">
+		<cfargument name="$" required="true" />
+		<cfset variables.instance.$ = arguments.$ />
 	</cffunction>
 
-	<cffunction name="getEvent" returntype="any" output="false">
-		<cfreturn variables.instance.event />
+	<cffunction name="getMuraScope" returntype="any" output="false">
+		<cfreturn variables.instance.$ />
 	</cffunction>
 
 	<cffunction name="getAllValues" returntype="any" output="false">

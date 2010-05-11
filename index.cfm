@@ -14,7 +14,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		fileDelim = fileObj.separator;
 		fullPluginDir = listChangeDelims(request.pluginConfig.getConfigBean().getPluginDir(), '/', fileDelim);
 		absolutePluginDir = removeChars(fullPluginDir, 1, len(webRoot));
-		pluginDir = absolutePluginDir & '/' & request.pluginConfig.getDirectory() & '/';		
+		pluginDir = absolutePluginDir & '/' & request.pluginConfig.getDirectory() & '/';
 		eventHandlersPath = listChangeDelims(pluginDir, '.', '/') & '.eventHandlers.EventHandlers';
 		obj = createObject('component', eventHandlersPath);
 	</cfscript>
@@ -25,7 +25,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<p><em>Version: #request.pluginConfig.getVersion()#<br />
 		Author: <a href="http://stephenwithington.com" target="_blank">Steve Withington</a></em></p>
 		
-		<cfdump var="#obj#" label="obj" />
+		<cfdump var="#obj#" label="eventHandlers obj" />
 		
 		<h3>Need help?</h3>
 		<p>Catch me on the <a href="http://www.getmura.com/forum/" target="_blank">Mura CMS forums</a>, contact me through my site at <a href="http://www.stephenwithington.com" target="_blank">www.stephenwithington.com</a>, or via email at steve [at] stephenwithington [dot] com.</p>

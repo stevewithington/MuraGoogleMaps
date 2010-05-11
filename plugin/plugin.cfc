@@ -11,12 +11,8 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<cfscript>
 		variables.config 		= '';
 		variables.packageAuthor	= 'Steve Withington | www.stephenwithington.com';
-		variables.packageDate 	= createDateTime(2010,05,07,15,12,0);
+		variables.packageDate 	= createDateTime(2010,05,11,09,23,0);
 		variables.packageName	= 'MuraGoogleMaps';
-		// not really needed, just here for me.
-		/*variables.plugindir 	= variables.config.getConfigBean().getPluginDir();
-		variables.dir 			= variables.config.getDirectory();
-		variables.package 		= variables.config.getPluginID();*/
 	</cfscript>
 
 	<cffunction name="init" returntype="any" access="public" output="false">

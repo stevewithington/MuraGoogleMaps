@@ -14,24 +14,22 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<providerURL>http://stephenwithington.com</providerURL>
 	<category>Application</category>
 	<settings>
-		<setting>
-			<name>mapFile</name>
-			<label>XML or CSV file:</label>
-			<hint>Please see the README.txt file for file format requirements.</hint>
-			<type>File</type>
-			<required>false</required>
+		<!---<setting>
+			<name></name>
+			<label></label>
+			<hint></hint>
+			<type>TextBox</type>
+			<required>true</required>
 			<validation></validation>
 			<regex></regex>
 			<message></message>
 			<defaultvalue></defaultvalue>
 			<optionlist></optionlist>
 			<optionlabellist></optionlabellist>
-		</setting>
+		</setting>--->
 	</settings>
 	<eventHandlers>
 		<eventHandler event="onApplicationLoad" component="eventHandlers.EventHandlers" persist="false" />
 	</eventHandlers>
-	<displayobjects location="global">
-		<displayobject name="MuraGoogleMap" displaymethod="dspMuraGoogleMap" component="displayObjects.DisplayObjects" persist="false" />
-	</displayobjects>
+	<displayobjects location="global" />
 </plugin></cfoutput>
