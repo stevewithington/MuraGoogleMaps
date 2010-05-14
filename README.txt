@@ -5,15 +5,13 @@ PROJECT
 MuraGoogleMaps TM
 
 VERSION
-0.1-Alpha
+0.5-Alpha
 
 PURPOSE
 A plugin for Mura CMS (www.getmura.com).
 I will display one or more locations on a custom Google Map.
 Directions to any of the locations will be available and have the option to disable.
-Can accept either a properly formatted CSV file or XML file.
-Future plans to accept a query object. However, currently does not allow
-end-user control via the admin UI to add/edit/delete locations.
+Can accept either a properly formatted CSV file or XML file via uploaded file or URL!
 
 FILE FORMAT REQUIREMENTS
 
