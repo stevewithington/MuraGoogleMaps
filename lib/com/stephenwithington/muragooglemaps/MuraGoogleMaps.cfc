@@ -28,7 +28,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 			};
 			if ( StructKeyExists(arguments, 'fileUrl') and len(trim(arguments.fileUrl)) and IsValid('url', arguments.fileUrl) ) {
 				setFileUrl(arguments.fileUrl);
-				doCFHttp(getfileUrl());
+				setCFHttp(getfileUrl());
 			};
 			// check for incoming options
 			if ( StructKeyExists(arguments, 'options') and IsStruct(arguments.options) and not StructIsEmpty(arguments.options) ) {
