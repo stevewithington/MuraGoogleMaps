@@ -5,7 +5,7 @@ PROJECT
 MuraGoogleMaps TM
 
 VERSION
-0.5-Alpha
+0.9-Alpha
 
 PURPOSE
 A plugin for Mura CMS (www.getmura.com).
@@ -13,16 +13,21 @@ I will display one or more locations on a custom Google Map.
 Directions to any of the locations will be available and have the option to disable.
 Can accept either a properly formatted CSV file or XML file via uploaded file or URL!
 
+INSTRUCTIONS
+After installing the plugin, create a new page in Mura CMS and change the type to 'Page / MuraGoogleMap'
+Go the the 'Extended Attributes' tab and then complete the simple form there.
+You can use the sample .csv and .xml files included in the 'samples' directory of the plugin.
+
 FILE FORMAT REQUIREMENTS
 
 .CSV file
 	- Header Row is REQUIRED and must contain 'LocationName,Lat,Lng,Address,Phone,InfoWindow,Zindex,Icon'
 	- Excel files (.xls, .xlsx, etc.) are NOT CSV files. You need to 'Save As' .CSV
-	- View the included 'sample.csv' file for reference.
+	- View the included 'samples/sample.csv' file for reference.
 
 .XML files
 	- All nodes must be present even if the value is empty.
-	- View the included 'sample.xml' file for reference.
+	- View the included 'samples/sample.xml' file for reference.
 
 FIELD DESCRIPTIONS
 Fields marked 'Optional' below may be left blank.
