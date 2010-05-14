@@ -40,9 +40,9 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 	// XmlUrl
 	upsertAttributeSet(
 		siteID=local.rsSites.siteid
-		,name='XmlUrl'
-		,label='The URL of a properly formatted XML file'
-		,hint='The URL of a properly formatted XML file (if not uploading a CSV or XML file)'
+		,name='mapURL'
+		,label='The URL of a properly formatted XML or CSV file'
+		,hint='The URL of a properly formatted XML or CSV file (if not uploading a CSV or XML file)'
 		,type='TextBox'
 		,defaultValue=''
 		,required=false

@@ -11,8 +11,8 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<cfscript>
 		variables.instance = structNew();
 		variables.instance.pluginConfig = '';
-		variables.instance.CSVFile = '';
-		variables.instance.XMLFile = '';
+		variables.instance.fileUrl = '';
+		variables.instance.cfhttp = '';
 		variables.instance.data = '';
 		variables.instance.jsLocations = '';
 		variables.instance.map = '';
@@ -20,26 +20,18 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 
 	<cffunction name="init" hint="constructor" access="public" returntype="MuraGoogleMaps" output="false">
 		<cfargument name="pluginConfig" required="true" />
-		<cfargument name="CSVFile" required="false" />
-		<cfargument name="XMLFile" required="false" />
-		<cfargument name="options" required="false" default="" />
+		<cfargument name="fileUrl" required="false" />
+		<cfargument name="options" required="false" />
 		<cfscript>
 			if ( StructKeyExists(arguments, 'pluginConfig') ) {
 				setPluginConfig(arguments.pluginConfig);
 			};
-
-			if ( StructKeyExists(arguments, 'CSVFile') ) {
-				setCSVFile(arguments.CSVFile);
-				setData(readCSVFile(getCSVFile()));
+			if ( StructKeyExists(arguments, 'fileUrl') and len(trim(arguments.fileUrl)) and IsValid('url', arguments.fileUrl) ) {
+				setFileUrl(arguments.fileUrl);
+				doCFHttp(getfileUrl());
 			};
-			
-			if ( StructKeyExists(arguments, 'XMLFile') ) {
-				setXMLFile(arguments.XMLFile);
-				setData(readXMLFile(getXMLFile()));
-			};
-
 			// check for incoming options
-			if ( IsStruct(arguments.options) ) {
+			if ( StructKeyExists(arguments, 'options') and IsStruct(arguments.options) and not StructIsEmpty(arguments.options) ) {
 				setmap(
 					mapData=getData()
 					, displayDirections = StructFind(arguments.options, 'displayDirections')
@@ -52,7 +44,6 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 			} else {
 				setMap(getData());
 			};
-			
 			return this;
 		</cfscript>
 	</cffunction>
@@ -61,7 +52,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfreturn variables.instance.map />
 	</cffunction>
 
-	<cffunction name="setMap" access="private" returntype="any" output="true">
+	<cffunction name="setMap" access="private" output="false" returntype="void">
 		<cfargument name="mapData" type="array" required="true" />
 		<cfargument name="displayDirections" default="true" required="false" />
 		<cfargument name="displayTravelMode" default="true" required="false" />
@@ -278,54 +269,52 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfset variables.instance.map = local.str />
 	</cffunction>
 
-	<cffunction name="readCSVFile" access="private" output="true" returntype="any">
-		<cfargument name="filename" required="true" />
+	<cffunction name="parseCsvFile" access="private" output="false" returntype="any">
+		<cfargument name="csvUrl" required="true" />
 		<cfscript>
 			var local = StructNew();
 			local.csvData = ArrayNew(1);
 
 			// read in the CSV file
-			if ( StructKeyExists(arguments, 'filename') and len(trim(arguments.filename)) ) {
-				local.fileReader = Createobject("java","java.io.FileReader");
-				local.fileReader.init(arguments.filename);
-	
-				// thank you Mark Mandel for JavaLoader!
+			if ( StructKeyExists(arguments, 'csvUrl') and len(trim(arguments.csvUrl)) and IsValid('url', arguments.csvUrl) ) {
+				// use a little Java magic to get our URL into a reader object so opencsv can do its thang!
+				local.url = CreateObject('java','java.net.URL').init(arguments.csvUrl);
+				local.streamReader = CreateObject('java','java.io.InputStreamReader').init(local.URL.openStream());
+				// i don't think i need the webroot map here
 				local.paths = [ExpandPath("/plugins/#getPluginConfig().getDirectory()#/lib/opencsv-2.2.jar")];
 				local.loader = CreateObject("component", "plugins.#getPluginConfig().getDirectory()#.lib.org.riaforge.javaloader.JavaLoader").init(local.paths);
 				local.csvReader = local.loader.create("au.com.bytecode.opencsv.CSVReader");
-	
-				local.csvReader.init(local.fileReader);
-				local.csvData = local.csvReader.readAll(); // available methods: close(), readAll(), readNext()
-				local.csvReader.close(); // close the file since we're done reading it
+				local.csvReader.init(local.streamReader);
+				local.csvData = local.csvReader.readAll();
+
+				local.csvReader.close(); 	// close the file since we're done reading it
+				local.streamReader.close();	// close the stream since we're done using it too
 			};
 			return local.csvData;
 		</cfscript>
 	</cffunction>
 
-	<cffunction name="readXMLFile" access="private" output="true" returntype="any">
-		<cfargument name="filename" required="true" />
+	<cffunction name="parseXmlFile" access="private" output="false" returntype="any">
+		<cfargument name="xmlFile" required="true" />
+		<cfset var local = StructNew() />
 		<cfscript>
-			var local = StructNew();
-			local.xml = XmlParse(arguments.filename);			
-			local.locationsArray = ArrayNew(2);			
+			local.xml = XmlParse(arguments.xmlFile);
+			local.xmlData = ArrayNew(2);			
 			local.headerRow = ArrayNew(1);
-			
 			// locations
 			for ( local.i=1; local.i lte ArrayLen(local.xml.locations.XmlChildren); local.i++ ) {
 				// location
-				local.location = local.xml.locations.location[i];
-				for ( local.iLocation=1; local.iLocation lte ArrayLen(local.xml.locations.location[i].XmlChildren); local.iLocation++ ) {
-					local.locationsArray[i][iLocation] = local.xml.locations.XmlChildren[i].XmlChildren[iLocation].XmlText;
+				local.location = local.xml.locations.location[local.i];
+				for ( local.iLocation=1; local.iLocation lte ArrayLen(local.xml.locations.location[local.i].XmlChildren); local.iLocation++ ) {
+					local.xmlData[local.i][local.iLocation] = local.xml.locations.XmlChildren[local.i].XmlChildren[local.iLocation].XmlText;
 				};
 			};
-
 			// Header Row
 			for ( local.iHeaderRow=1; local.iHeaderRow lte arrayLen(local.xml["locations"]["location"].XmlChildren); local.iHeaderRow++ ) {
 				ArrayAppend(local.headerRow, local.xml["locations"]["location"].XmlChildren[local.iHeaderRow].XmlName);
 			};
-			ArrayInsertAt(local.locationsArray, 1, local.headerRow);
-
-			return local.locationsArray;
+			ArrayInsertAt(local.xmlData, 1, local.headerRow);
+			return local.xmlData;
 		</cfscript>
 	</cffunction>
 
@@ -437,6 +426,15 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfreturn variables.instance.data />
 	</cffunction>
 
+	<cffunction name="setFileUrl" access="private" output="false" returntype="void">
+		<cfargument name="fileUrl" required="false" default="" />
+		<cfset variables.instance.fileUrl = arguments.fileUrl />
+	</cffunction>
+
+	<cffunction name="getfileUrl" access="public" output="false" returntype="any">
+		<cfreturn variables.instance.fileUrl />
+	</cffunction>
+
 	<cffunction name="setJSLocations" access="private" output="false" returntype="void">
 		<cfargument name="jsLocations" required="true" />
 		<cfscript>
@@ -467,22 +465,42 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfreturn variables.instance.jsLocations />
 	</cffunction>
 
-	<cffunction name="setCSVFile" access="private" output="false" returntype="void">
-		<cfargument name="CSVFile" required="true" />
-		<cfset variables.instance.CSVFile = arguments.CSVFile />
+	<cffunction name="setCFHttp" access="private" output="false" returntype="void">
+		<cfargument name="url" required="false" default="#getfileUrl()#" />
+		<cfscript>
+			var local = StructNew();
+			local.url = arguments.url;
+			local.errors = StructNew();
+			local.result = StructNew();
+			local.result.cfhttp = '';
+		</cfscript>
+		<cftry>
+			<cfhttp url="#local.url#" resolveurl="yes" method="get" charset="utf-8" />
+			<cfcatch>
+				<cfset local.errors.CFHttpError = 'Message: ' & cfcatch.message & '<br />Detail: ' & cfcatch.detail />
+			</cfcatch>
+		</cftry>
+		<cfscript>
+			if ( StructKeyExists(cfhttp, 'statuscode') and cfhttp.statuscode eq '200 OK' ) {
+				local.result.cfhttp = cfhttp;
+				local.result.content = ToString(trim(cfhttp.FileContent));
+				if ( IsXml(local.result.content) ) {
+					// if this is XML, send it for parsing
+					setData(parseXmlFile(local.result.content));
+				} else {
+					setData(parseCsvFile(local.url));
+				};
+			} else {
+				local.errors.statuscode = cfhttp.statuscode;
+			};
+			variables.instance.cfhttp = local.result.cfhttp;
+		</cfscript>
 	</cffunction>
 
-	<cffunction name="getCSVFile" access="private" output="false" returntype="any">
-		<cfreturn variables.instance.CSVFile />
-	</cffunction>
-
-	<cffunction name="setXMLFile" access="private" output="false" returntype="void">
-		<cfargument name="XMLFile" required="true" />
-		<cfset variables.instance.XMLFile = arguments.XMLFile />
-	</cffunction>
-
-	<cffunction name="getXMLFile" access="private" output="false" returntype="any">
-		<cfreturn variables.instance.XMLFile />
+	<cffunction name="dump" access="private" output="true" returntype="any">
+		<cfargument name="var" type="any" default="" />
+		<cfdump var="#arguments.var#" />
+		<cfabort />
 	</cffunction>
 
 	<cffunction name="setPluginConfig" access="private" output="false" returntype="void">
