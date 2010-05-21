@@ -282,7 +282,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 				local.streamReader = CreateObject('java','java.io.InputStreamReader').init(local.URL.openStream());
 				// i don't think i need the webroot map here
 				local.paths = [ExpandPath("/plugins/#getPluginConfig().getDirectory()#/lib/opencsv-2.2.jar")];
-				local.loader = CreateObject("component", "plugins.#getPluginConfig().getDirectory()#.lib.org.riaforge.javaloader.JavaLoader").init(local.paths);
+				local.loader = CreateObject("component", "mura.javaloader.JavaLoader").init(local.paths);
 				local.csvReader = local.loader.create("au.com.bytecode.opencsv.CSVReader");
 				local.csvReader.init(local.streamReader);
 				local.csvData = local.csvReader.readAll();
