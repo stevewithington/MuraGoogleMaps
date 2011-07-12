@@ -57,7 +57,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 				// process only xml or csv files
 				if ( local.rsMapInfo.fileExt eq 'xml' or local.rsMapInfo.fileExt eq 'csv' ) {
 					// build a URL to the location of the mapFile
-					local.mapFile = getPageContext().getRequest().getScheme() & '://' & getPageContext().getRequest().getServerName() & $.globalConfig('context') & '/tasks/render/file/?fileID=' & local.rsMapInfo.fileID & '&amp;ext=.' & local.rsMapInfo.fileExt;
+					local.mapFile = getPageContext().getRequest().getScheme() & '://' & getPageContext().getRequest().getServerName() & ':' & getPageContext().getRequest().getServerPort() & $.globalConfig('context') & '/tasks/render/file/?fileID=' & local.rsMapInfo.fileID & '&amp;ext=.' & local.rsMapInfo.fileExt;
 				};
 			} else if ( len(trim($.content('mapURL'))) ) {
 				// if a file hasn't been uploaded, let's check to see if a URL has been provided

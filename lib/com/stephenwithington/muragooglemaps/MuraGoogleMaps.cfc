@@ -280,8 +280,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 				// use a little Java magic to get our URL into a reader object so opencsv can do its thang!
 				local.url = CreateObject('java','java.net.URL').init(arguments.csvUrl);
 				local.streamReader = CreateObject('java','java.io.InputStreamReader').init(local.URL.openStream());
-				// i don't think i need the webroot map here
-				local.paths = [ExpandPath("/plugins/#getPluginConfig().getDirectory()#/lib/opencsv-2.2.jar")];
+				local.paths = [ExpandPath("#application.configBean.getContext()#/plugins/#getPluginConfig().getDirectory()#/lib/opencsv-2.2.jar")];
 				local.loader = CreateObject("component", "mura.javaloader.JavaLoader").init(local.paths);
 				local.csvReader = local.loader.create("au.com.bytecode.opencsv.CSVReader");
 				local.csvReader.init(local.streamReader);

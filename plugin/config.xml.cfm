@@ -9,7 +9,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 --->
 	<name>MuraGoogleMaps</name>
 	<package>MuraGoogleMaps</package>
-	<version>0.9.1-Beta</version>
+	<version>1.0.0</version>
 	<provider>Steve Withington</provider>
 	<providerURL>http://stephenwithington.com</providerURL>
 	<category>Application</category>
