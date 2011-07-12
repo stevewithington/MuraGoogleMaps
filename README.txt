@@ -1,11 +1,11 @@
 COPYRIGHT
-(C) 2010, Stephen J. Withington, Jr. | http://www.stephenwithington.com
+(C) 2011, Stephen J. Withington, Jr. | http://www.stephenwithington.com
 
 PROJECT
 MuraGoogleMaps TM
 
 VERSION
-0.9-Alpha
+1.0.0
 
 PURPOSE
 A plugin for Mura CMS (www.getmura.com).
