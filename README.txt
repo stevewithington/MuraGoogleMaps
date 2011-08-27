@@ -5,7 +5,7 @@ PROJECT
 MuraGoogleMaps TM
 
 VERSION
-1.0.0
+1.0.1
 
 PURPOSE
 A plugin for Mura CMS (www.getmura.com).

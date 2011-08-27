@@ -9,25 +9,12 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 --->
 	<name>MuraGoogleMaps</name>
 	<package>MuraGoogleMaps</package>
-	<version>1.0.0</version>
+	<directoryFormat>packageOnly</directoryFormat>
+	<version>1.0.1</version>
 	<provider>Steve Withington</provider>
 	<providerURL>http://stephenwithington.com</providerURL>
 	<category>Application</category>
-	<settings>
-		<!---<setting>
-			<name></name>
-			<label></label>
-			<hint></hint>
-			<type>TextBox</type>
-			<required>true</required>
-			<validation></validation>
-			<regex></regex>
-			<message></message>
-			<defaultvalue></defaultvalue>
-			<optionlist></optionlist>
-			<optionlabellist></optionlabellist>
-		</setting>--->
-	</settings>
+	<settings></settings>
 	<eventHandlers>
 		<eventHandler event="onApplicationLoad" component="eventHandlers.EventHandlers" persist="false" />
 	</eventHandlers>

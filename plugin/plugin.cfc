@@ -11,7 +11,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<cfscript>
 		variables.config 		= '';
 		variables.packageAuthor	= 'Steve Withington | www.stephenwithington.com';
-		variables.packageDate 	= createDateTime(2010,05,21,07,50,0);
+		variables.packageDate 	= createDateTime(2011,08,26,16,52,0);
 		variables.packageName	= 'MuraGoogleMaps';
 	</cfscript>
 

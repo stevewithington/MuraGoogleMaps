@@ -115,7 +115,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 					##gmapSubmit {}
 				</style>
 				<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-				<meta name="map-generator" content="MuraGoogleMaps, v.0.1" />
+				<meta name="map-generator" content="MuraGoogleMaps, v.1.0.0" />
 				<meta name="map-author" content="Steve Withington; http://www.stephenwithington.com" />
 				<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 				<script type="text/javascript">
@@ -130,7 +130,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 					var directionsService;
 					var map;
 					var marker;
-					var markersArray = ArrayNew(1);
+					var markersArray = new Array();
 					var infoWindow;
 		
 					// INIT
@@ -235,12 +235,12 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 									<label for="end">To:</label>
 									<cfif ArrayLen(arguments.mapData)>
 										<select name="end" id="end">
-											<cfloop from="1" to="#ArrayLen(arguments.mapData)#" index="i">
-												<option value="#arguments.mapData[i][2]#,#arguments.mapData[i][3]#">#arguments.mapData[i][1]#</option></cfloop>
+											<cfloop from="1" to="#ArrayLen(arguments.mapData)#" index="local.i">
+												<option value="#arguments.mapData[local.i][2]#,#arguments.mapData[local.i][3]#">#arguments.mapData[local.i][1]#</option></cfloop>
 										</select>&nbsp;&nbsp;
 										<cfelse>
-										<cfloop from="1" to="#ArrayLen(arguments.mapData)#" index="i">
-											#arguments.mapData[i][1]# <input type="hidden" name="end" value="#arguments.mapData[i][2]#,#arguments.mapData[i][3]#" />&nbsp;&nbsp;</cfloop>
+										<cfloop from="1" to="#ArrayLen(arguments.mapData)#" index="local.i">
+											#arguments.mapData[local.i][1]# <input type="hidden" name="end" value="#arguments.mapData[local.i][2]#,#arguments.mapData[local.i][3]#" />&nbsp;&nbsp;</cfloop>
 									</cfif>
 								</div>
 								<div id="gmapTravelMode">
@@ -256,7 +256,6 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 									</cfif>
 								</div>
 								<div id="gmapSubmit">
-
 									<input type="submit" name="btnSubmit" id="btnSubmit" value="Get Directions!" />
 								</div>
 							</form>
@@ -430,7 +429,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfset variables.instance.fileUrl = arguments.fileUrl />
 	</cffunction>
 
-	<cffunction name="getfileUrl" access="public" output="false" returntype="any">
+	<cffunction name="getFileUrl" access="public" output="false" returntype="any">
 		<cfreturn variables.instance.fileUrl />
 	</cffunction>
 

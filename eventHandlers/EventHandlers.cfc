@@ -72,7 +72,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 				);
 			} else {
 				// if we don't have a mapFile built yet, then we're probably dealing with a bad file
-				local.str = 'Map file appears to be invalid.';
+				local.map = 'Map file appears to be invalid.';
 			};
 
 			local.str = local.body & local.map;
