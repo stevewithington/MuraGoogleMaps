@@ -10,7 +10,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<name>MuraGoogleMaps</name>
 	<package>MuraGoogleMaps</package>
 	<directoryFormat>packageOnly</directoryFormat>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<provider>Steve Withington</provider>
 	<providerURL>http://stephenwithington.com</providerURL>
 	<category>Application</category>
