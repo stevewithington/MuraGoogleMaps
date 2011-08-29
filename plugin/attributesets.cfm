@@ -180,7 +180,6 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,parentType=local.parentType
 		,orderNo=9
 	);
-	
 
 };
 </cfscript>
