@@ -11,7 +11,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<cfscript>
 		variables.config 		= '';
 		variables.packageAuthor	= 'Steve Withington | www.stephenwithington.com';
-		variables.packageDate 	= createDateTime(2011,08,26,16,52,0);
+		variables.packageDate 	= createDateTime(2011,08,28,22,36,0);
 		variables.packageName	= 'MuraGoogleMaps';
 	</cfscript>
 
@@ -25,9 +25,9 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<cffunction name="install" returntype="void" access="public" output="false">
 		<cfscript>
 			var local = structNew();
-			// need to check and see if MuraMediaPlayer is already installed ... if so, then abort!
+			// need to check and see if this is already installed ... if so, then abort!
 			local.moduleid = variables.config.getModuleID();
-			// only if MuraMediaPlayer is NOT installed
+			// only if this is NOT installed
 			if ( val(getInstallationCount()) eq 1 ) {
 				upsertMuraGoogleMapsSubType();
 			} else {
@@ -47,7 +47,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<cffunction name="delete" returntype="void" access="public" output="false">
 		<cfscript>
 			var local = structNew();
-			local.reloadKey = variables.config.getConfigBean().getAppReloadKey();
+			//local.reloadKey = variables.config.getConfigBean().getAppReloadKey();
 
 			// don't delete the subTypes if this is being invoked by the deletePlugin() from install()
 			if ( val(getInstallationCount()) eq 1 ) {
@@ -68,7 +68,6 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 			var local 	= structNew();
 			local.ret	= 0;
 		</cfscript>
-
 		<cfif rs.recordcount>
 			<cfquery name="qoq" dbtype="query">
 				SELECT *
@@ -88,7 +87,6 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 	<cffunction name="upsertMuraGoogleMapsSubType" returntype="any" access="private" output="false">
 		<cfscript>
 			var local = structNew();
-
 			// grab which sites this plugin has been assigned to
 			local.rsSites 		= variables.config.getAssignedSites();
 			local.filestore 	= variables.config.getConfigBean().getFileStore();

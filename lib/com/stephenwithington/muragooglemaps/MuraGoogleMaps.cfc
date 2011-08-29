@@ -39,6 +39,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 					, mapHeight = val(StructFind(arguments.options, 'mapHeight'))
 					, mapType = StructFind(arguments.options, 'mapType')
 					, mapWidth = val(StructFind(arguments.options, 'mapWidth'))
+					, mapZoom = StructFind(arguments.options, 'mapZoom')
 					, start = StructFind(arguments.options, 'start')
 				);
 			} else {
@@ -60,22 +61,21 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 		<cfargument name="mapInfoWindowMaxWidth" default="300" required="false" />
 		<cfargument name="mapType" default="TERRAIN" required="false" />
 		<cfargument name="mapWidth" default="600" required="false" />
+		<cfargument name="mapZoom" default="default" required="false" />
 		<cfargument name="start" default="Lebanon, KS" required="false" />
 		
 		<cfscript>
 			var local = StructNew();
-			//local.str = "<p><em>Sorry, we don't have any locations to display yet.</em></p>";
 			local.str = '';
-	
-			// default start 'From' for directions
-			if ( not structKeyExists(arguments, 'start') ) {
-				arguments.start = start;
+
+			if ( not ListFindNoCase('default^0^1^2^3^4^5^6^7^8^9^10^11^12^13^14^15^16^17^18', arguments.mapZoom, '^') ) {
+				arguments.mapZoom = 'default';
 			};
 			
 			if ( not IsBoolean(arguments.displayDirections) ) {
 				arguments.displayDirections = true;
 			};
-			
+
 			if ( not IsBoolean(arguments.displayTravelMode) ) {
 				arguments.displayTravelMode = true;
 			};
@@ -115,7 +115,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 					##gmapSubmit {}
 				</style>
 				<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-				<meta name="map-generator" content="MuraGoogleMaps, v.1.0.0" />
+				<meta name="map-generator" content="MuraGoogleMaps, v.1.0.2" />
 				<meta name="map-author" content="Steve Withington; http://www.stephenwithington.com" />
 				<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 				<script type="text/javascript">
@@ -149,13 +149,14 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 						// gather up map options for the constructor					
 						var mapOptions = {
 							center: bounds.getCenter()
+							<cfif arguments.mapZoom neq 'default'>, zoom: #arguments.mapZoom#</cfif>
 							// mapTypeId opts: ROADMAP, SATELLITE, HYBRID, TERRAIN
 							, mapTypeId: google.maps.MapTypeId.#arguments.mapType#
 						};
 		
 						// GMap v3 Constructor
 						map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-						map.fitBounds(bounds);
+						<cfif arguments.mapZoom eq 'default'>map.fitBounds(bounds);</cfif>
 		
 						// Directions
 						directionsDisplay.setMap(map);

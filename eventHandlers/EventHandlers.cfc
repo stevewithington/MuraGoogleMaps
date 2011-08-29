@@ -47,6 +47,7 @@ CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THI
 			local.mapOptions.start = $.content('start');
 			local.mapOptions.mapWidth = $.content('mapWidth');
 			local.mapOptions.mapHeight = $.content('mapHeight');
+			local.mapOptions.mapZoom = $.content('mapZoom');
 
 			// check to see if an actual file was uploaded
 			if ( len(trim($.content('mapFile'))) ) {

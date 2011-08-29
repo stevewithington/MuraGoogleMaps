@@ -163,5 +163,24 @@ if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExist
 		,orderNo=8
 	);
 
+	// mapZoom (0 = fully zoomed out // 18 = fully zoomed in)
+	upsertAttributeSet(
+		siteID=local.rsSites.siteid
+		,name='mapZoom'
+		,label='Default Zoom'
+		,hint='You can override the default behaviour of auto-fit all locations here.'
+		,type='SelectBox'
+		,defaultValue='default'
+		,required=false
+		,validate='None'
+		,regex=''
+		,message=''
+		,optionList='default^0^1^2^3^4^5^6^7^8^9^10^11^12^13^14^15^16^17^18'
+		,optionLabelList='Auto Fit All Locations To Viewport^0 (Fully Zoomed Out-Earth Map)^1^2^3^4^5^6^7^8^9^10^11^12^13^14^15^16^17^18 (Fully Zoomed In)'
+		,parentType=local.parentType
+		,orderNo=9
+	);
+	
+
 };
 </cfscript>
