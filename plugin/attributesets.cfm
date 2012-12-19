@@ -1,22 +1,17 @@
-<!---
-
-This file is part of MuraGoogleMaps TM
-(c) Stephen J. Withington, Jr. | www.stephenwithington.com
-
-CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THIS SOFTWARE, YOU ARE CONSENTING TO BE BOUND BY AND ARE BECOMING A PARTY TO THIS AGREEMENT. IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, THEN DO NOT USE THIS SOFTWARE, AND, IF APPLICABLE, RETURN THIS PRODUCT TO THE PLACE OF PURCHASE FOR A FULL REFUND.
-
-Valid Types:
-	TextBox
-	TextArea
-	HTMLEditor
-	SelectBox
-	MultiSelectBox
-	RadioGroup
-	File
-	Hidden
-
---->
 <cfscript>
+/**
+* 
+* This file is part of MuraGoogleMaps TM
+*
+* Copyright 2010-2012 Stephen J. Withington, Jr.
+* Licensed under the Apache License, Version v2.0
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* NOTES:
+* 	Valid Types:
+*		TextBox, TextArea, HTMLEditor, SelectBox, MultiSelectBox, RadioGroup, File, Hidden
+*/
+
 // time to create the attribute sets
 if ( isDefined('local') and structKeyExists(local, 'rsSites') and structKeyExists(local.rsSites, 'siteid') and structKeyExists(local, 'parentType') ) {
 	// mapFile

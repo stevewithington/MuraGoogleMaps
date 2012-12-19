@@ -1,16 +1,19 @@
+<cfscript>
+/**
+* 
+* This file is part of MuraGoogleMaps TM
+*
+* Copyright 2010-2012 Stephen J. Withington, Jr.
+* Licensed under the Apache License, Version v2.0
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+*/
+</cfscript>
 <cfoutput><plugin>
-<!---
-
-This file is part of MuraGoogleMaps TM
-(c) Stephen J. Withington, Jr. | www.stephenwithington.com
-
-CAREFULLY READ THE ENCLOSED LICENSE AGREEMENT (plugin/license.htm). BY USING THIS SOFTWARE, YOU ARE CONSENTING TO BE BOUND BY AND ARE BECOMING A PARTY TO THIS AGREEMENT. IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, THEN DO NOT USE THIS SOFTWARE, AND, IF APPLICABLE, RETURN THIS PRODUCT TO THE PLACE OF PURCHASE FOR A FULL REFUND.
-
---->
 	<name>MuraGoogleMaps</name>
 	<package>MuraGoogleMaps</package>
 	<directoryFormat>packageOnly</directoryFormat>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<provider>Steve Withington</provider>
 	<providerURL>http://stephenwithington.com</providerURL>
 	<category>Application</category>
