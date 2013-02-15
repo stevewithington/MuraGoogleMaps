@@ -13,7 +13,7 @@
 	<name>MuraGoogleMaps</name>
 	<package>MuraGoogleMaps</package>
 	<directoryFormat>packageOnly</directoryFormat>
-	<version>1.2</version>
+	<version>2.0</version>
 	<provider>Steve Withington</provider>
 	<providerURL>http://stephenwithington.com</providerURL>
 	<category>Application</category>
