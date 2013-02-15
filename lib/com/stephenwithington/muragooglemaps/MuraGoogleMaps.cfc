@@ -1,7 +1,7 @@
 <!---
 	This file is part of MuraGoogleMaps TM
 
-	Copyright 2010-2012 Stephen J. Withington, Jr.
+	Copyright 2010-2013 Stephen J. Withington, Jr.
 	Licensed under the Apache License, Version v2.0
 	http://www.apache.org/licenses/LICENSE-2.0
 --->
@@ -114,9 +114,9 @@
 					##gmapSubmit {}
 				</style>
 				<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-				<meta name="map-generator" content="MuraGoogleMaps, v.1.1.0" />
+				<meta name="map-generator" content="MuraGoogleMaps, v.1.2" />
 				<meta name="map-author" content="Steve Withington; http://www.stephenwithington.com" />
-				<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+				<script type="text/javascript" src="#getPageContext().getRequest().getScheme()#://maps.google.com/maps/api/js?sensor=false"></script>
 				<script type="text/javascript">
 				/* <![CDATA[ */
 					window.onload = function() {

@@ -1,7 +1,7 @@
 <!---
 	This file is part of MuraGoogleMaps TM
 
-	Copyright 2010-2012 Stephen J. Withington, Jr.
+	Copyright 2010-2013 Stephen J. Withington, Jr.
 	Licensed under the Apache License, Version v2.0
 	http://www.apache.org/licenses/LICENSE-2.0
 --->
@@ -10,7 +10,7 @@
 	<cfscript>
 		variables.config 		= '';
 		variables.packageAuthor	= 'Steve Withington | www.stephenwithington.com';
-		variables.packageDate 	= createDateTime(2011,08,28,22,36,0);
+		variables.packageDate 	= createDateTime(2013,02,15,15,57,0);
 		variables.packageName	= 'MuraGoogleMaps';
 	</cfscript>
 
